@@ -1,286 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>for Anaya 💕</title>
+<meta charset="UTF-8">
+<title>For Anaya ❤️</title>
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&display=swap');
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(120deg,#ff6a88,#ff99ac);
+overflow:hidden;
+text-align:center;
+color:white;
+}
 
-    :root {
-      --pink: #ff69b4;
-      --soft-pink: #ffb6c1;
-    }
+.page{
+display:none;
+height:100vh;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+animation:fade 1s;
+}
 
-    * { margin:0; padding:0; box-sizing:border-box; }
+.active{
+display:flex;
+}
 
-    body {
-      height:100vh; overflow:hidden;
-      background:#000;
-      font-family:'Playfair Display', serif;
-      color:white;
-      touch-action:manipulation;
-    }
+h1{
+font-size:40px;
+}
 
-    #intro {
-      position:fixed; inset:0;
-      background:rgba(0,0,0,0.85);
-      display:flex; flex-direction:column;
-      align-items:center; justify-content:center;
-      z-index:100; opacity:1;
-      transition:opacity 2s ease;
-    }
+button{
+padding:12px 25px;
+border:none;
+background:white;
+color:#ff4d6d;
+font-size:18px;
+border-radius:20px;
+cursor:pointer;
+margin-top:20px;
+}
 
-    #intro.hidden { opacity:0; pointer-events:none; }
+img{
+width:220px;
+border-radius:20px;
+box-shadow:0 0 20px rgba(0,0,0,0.3);
+}
 
-    #intro h1 {
-      font-family:'Dancing Script', cursive;
-      font-size:5.5rem;
-      color:var(--pink);
-      text-shadow:0 0 40px var(--pink);
-      margin-bottom:1.5rem;
-      animation:glow 3s infinite alternate;
-    }
+@keyframes fade{
+from{opacity:0}
+to{opacity:1}
+}
 
-    @keyframes glow {
-      from { text-shadow:0 0 20px var(--pink); }
-      to   { text-shadow:0 0 80px var(--pink), 0 0 120px var(--pink); }
-    }
+/* balloons */
+.balloon{
+position:absolute;
+bottom:-100px;
+font-size:30px;
+animation:fly 8s linear infinite;
+}
 
-    #intro p { 
-      font-size:2.2rem; 
-      text-align:center; 
-      padding:0 25px; 
-      margin-top:1rem;
-    }
-
-    #garden-container {
-      position:relative;
-      width:100vw; height:100vh;
-      overflow:hidden;
-      opacity:0;
-      transition:opacity 2.5s ease;
-    }
-
-    #garden-container.visible { opacity:1; }
-
-    .soil {
-      position:absolute; bottom:0; width:100%; height:220px;
-      background:linear-gradient(to top, #5c4033, #8b5a2b);
-      z-index:1;
-    }
-
-    .flower {
-      position:absolute; bottom:220px;
-      transform-origin:bottom center;
-      opacity:0; scale:0.4;
-    }
-
-    .stem {
-      width:7px; height:0;
-      background:linear-gradient(to top, #1e8449, #27ae60);
-      position:absolute; bottom:0; left:50%;
-      transform:translateX(-50%);
-      border-radius:4px;
-    }
-
-    .leaf {
-      position:absolute; width:45px; height:30px;
-      background:#27ae60; border-radius:50% 20% 50% 20%;
-      opacity:0; transform:scale(0);
-    }
-
-    .leaf.left  { left:-20px; transform:rotate(-40deg); }
-    .leaf.right { right:-20px; transform:rotate(40deg); }
-
-    .bloom {
-      position:absolute; top:-50px; left:50%;
-      transform:translateX(-50%);
-      width:60px; height:60px;
-      background:radial-gradient(circle, #fff, #ffd700);
-      border-radius:50%;
-      opacity:0; scale:0;
-      box-shadow:0 0 60px #ffd700;
-    }
-
-    .petal {
-      position:absolute; width:32px; height:55px;
-      background:linear-gradient(to top, #ff69b4, #ffb6c1);
-      border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
-      top:-28px; left:50%;
-      transform-origin:bottom center;
-      opacity:0; scale:0;
-      box-shadow:0 0 30px rgba(255,105,180,0.8);
-    }
-
-    .heart {
-      position:absolute;
-      font-size:2.5rem;
-      opacity:0;
-      animation:heartRain 10s linear infinite;
-    }
-
-    @keyframes heartRain {
-      0%   { transform:translateY(-120vh) rotate(0deg); opacity:0; }
-      10%  { opacity:0.95; }
-      100% { transform:translateY(120vh) rotate(1080deg); opacity:0; }
-    }
-
-    .butterfly {
-      position:absolute;
-      font-size:3rem;
-      opacity:0;
-      animation:flyButterfly 14s linear infinite;
-    }
-
-    @keyframes flyButterfly {
-      0%   { transform:translate(-60vw, 60vh) rotate(0deg); opacity:0; }
-      10%  { opacity:1; }
-      100% { transform:translate(160vw, -60vh) rotate(1440deg); opacity:0; }
-    }
-
-    .final-msg {
-      position:fixed; inset:0;
-      display:flex; align-items:center; justify-content:center;
-      flex-direction:column;
-      font-family:'Dancing Script', cursive;
-      font-size:5.5rem;
-      color:var(--pink);
-      text-shadow:0 0 50px var(--pink);
-      opacity:0;
-      pointer-events:none;
-      transition:opacity 3s ease;
-      z-index:50;
-      text-align:center;
-      padding:0 30px;
-    }
-
-    .final-msg.visible { opacity:1; }
-
-    .small-love {
-      font-size:2.2rem;
-      margin-top:1rem;
-      opacity:0.9;
-    }
-  </style>
+@keyframes fly{
+0%{transform:translateY(0)}
+100%{transform:translateY(-110vh)}
+}
+</style>
 </head>
+
 <body>
 
-<audio id="song" loop preload="auto">
-  <source src="tere-liye.mp3" type="audio/mpeg">
+<audio autoplay loop>
+<source src="tere-liye.mp3" type="audio/mpeg">
 </audio>
 
-<div id="intro">
-  <h1>hey Anaya 💕</h1>
-  <p>this is for you... ek chhota sa surprise dil se 🌸</p>
+<div id="balloons"></div>
+
+<!-- PAGE 1 -->
+<div class="page active">
+<h1>Hi Anaya ❤️</h1>
+<p>This website is only for you</p>
+<button onclick="next()">Click</button>
 </div>
 
-<div id="garden-container">
-  <div class="soil"></div>
-
-  <!-- Main flower - center -->
-  <div class="flower" id="mainFlower" style="left:50%;">
-    <div class="stem" id="stem1"></div>
-    <div class="leaf left" id="leaf1"></div>
-    <div class="leaf right" id="leaf2"></div>
-    <div class="bloom" id="bloom1"></div>
-    <div class="petal" style="transform:rotate(0deg)"   id="p1"></div>
-    <div class="petal" style="transform:rotate(72deg)"  id="p2"></div>
-    <div class="petal" style="transform:rotate(144deg)" id="p3"></div>
-    <div class="petal" style="transform:rotate(216deg)" id="p4"></div>
-    <div class="petal" style="transform:rotate(288deg)" id="p5"></div>
-  </div>
-
-  <!-- Left side flowers -->
-  <div class="flower" style="left:18%; bottom:190px; scale:0.75;">
-    <div class="stem" style="animation-delay:4s;"></div>
-    <div class="bloom" style="animation-delay:7s;"></div>
-    <div class="petal" style="transform:rotate(0deg); animation-delay:8s;"></div>
-    <div class="petal" style="transform:rotate(72deg); animation-delay:8.2s;"></div>
-    <div class="petal" style="transform:rotate(144deg); animation-delay:8.4s;"></div>
-  </div>
-
-  <div class="flower" style="left:35%; bottom:170px; scale:0.85;">
-    <div class="stem" style="animation-delay:5s;"></div>
-    <div class="bloom" style="animation-delay:8s;"></div>
-    <div class="petal" style="transform:rotate(0deg); animation-delay:9s;"></div>
-    <div class="petal" style="transform:rotate(72deg); animation-delay:9.2s;"></div>
-    <div class="petal" style="transform:rotate(144deg); animation-delay:9.4s;"></div>
-  </div>
-
-  <!-- Right side flowers -->
-  <div class="flower" style="left:82%; bottom:180px; scale:0.8;">
-    <div class="stem" style="animation-delay:6s;"></div>
-    <div class="bloom" style="animation-delay:9s;"></div>
-    <div class="petal" style="transform:rotate(0deg); animation-delay:10s;"></div>
-    <div class="petal" style="transform:rotate(72deg); animation-delay:10.2s;"></div>
-    <div class="petal" style="transform:rotate(144deg); animation-delay:10.4s;"></div>
-  </div>
-
-  <div class="flower" style="left:65%; bottom:160px; scale:0.7;">
-    <div class="stem" style="animation-delay:7s;"></div>
-    <div class="bloom" style="animation-delay:10s;"></div>
-    <div class="petal" style="transform:rotate(0deg); animation-delay:11s;"></div>
-    <div class="petal" style="transform:rotate(72deg); animation-delay:11.2s;"></div>
-    <div class="petal" style="transform:rotate(144deg); animation-delay:11.4s;"></div>
-  </div>
-
-  <!-- Butterflies -->
-  <div class="butterfly" style="left:15%; bottom:50%; animation-delay:12s;">🦋</div>
-  <div class="butterfly" style="left:80%; bottom:65%; animation-delay:14s;">🦋</div>
-  <div class="butterfly" style="left:40%; bottom:70%; animation-delay:16s;">🦋</div>
+<!-- PAGE 2 -->
+<div class="page">
+<h1>🌹 A Flower For You</h1>
+<img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif">
+<button onclick="next()">Next</button>
 </div>
 
-<div class="final-msg" id="finalMsg">
-  Anaya...<br>
-  you make my world bloom every single day 🌸<br>
-  i love you cutiepie 💖🫰
-  <div class="small-love">forever yours 💕</div>
+<!-- PAGE 3 -->
+<div class="page">
+<h1>🌹 Another Flower</h1>
+<img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
+<button onclick="next()">Next</button>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page">
+<h1>🌹 Only For Anaya</h1>
+<img src="https://media.giphy.com/media/26BRuo6sLetdllPAQ/giphy.gif">
+<button onclick="next()">Next</button>
+</div>
+
+<!-- PAGE 5 -->
+<div class="page">
+<h1>I Made for You Anaya ❤️</h1>
+<img src="https://media.giphy.com/media/3oriO6qJiXajN0TyDu/giphy.gif">
+<p>You are a cutiepie </p>
 </div>
 
 <script>
-  const intro    = document.getElementById('intro');
-  const garden   = document.getElementById('garden-container');
-  const finalMsg = document.getElementById('finalMsg');
-  const audio    = document.getElementById('song');
 
-  // Start on first tap/touch (mobile friendly)
-  document.body.addEventListener('click', start, {once:true});
-  document.body.addEventListener('touchstart', start, {once:true});
+let pages=document.querySelectorAll(".page");
+let current=0;
 
-  function start() {
-    intro.classList.add('hidden');
-    audio.play().catch(()=>{});
-    garden.classList.add('visible');
+function next(){
+pages[current].classList.remove("active");
+current++;
+if(current<pages.length){
+pages[current].classList.add("active");
+}
+}
 
-    // Growth sequence with delays
-    setTimeout(() => document.getElementById('stem1').style.animation = 'growStem 4.5s forwards', 1200);
+/* balloons */
+function createBalloon(){
+let b=document.createElement("div");
+b.className="balloon";
+b.innerHTML="🎈 Anaya";
+b.style.left=Math.random()*100+"vw";
+b.style.animationDuration=5+Math.random()*5+"s";
+document.body.appendChild(b);
 
-    setTimeout(() => {
-      document.getElementById('leaf1').style.animation = 'growLeaf 3s forwards';
-      document.getElementById('leaf2').style.animation = 'growLeaf 3s forwards';
-    }, 5000);
+setTimeout(()=>{b.remove()},8000);
+}
 
-    setTimeout(() => {
-      document.getElementById('bloom1').style.animation = 'bloomFlower 3.5s forwards';
-      document.getElementById('p1').style.animation = 'petalOpen 3s forwards';
-      document.getElementById('p2').style.animation = 'petalOpen 3s forwards';
-      document.getElementById('p3').style.animation = 'petalOpen 3s forwards';
-      document.getElementById('p4').style.animation = 'petalOpen 3s forwards';
-      document.getElementById('p5').style.animation = 'petalOpen 3s forwards';
-    }, 8500);
+setInterval(createBalloon,800);
 
-    // Final message after full garden
-    setTimeout(() => finalMsg.classList.add('visible'), 16000);
-  }
 </script>
 
-<style>
-  @keyframes growStem   { to { height:200px; } }
-  @keyframes growLeaf   { to { opacity:1; scale:1; } }
-  @keyframes bloomFlower{ to { opacity:1; scale:1; } }
-  @keyframes petalOpen  { to { opacity:1; scale:1; } }
-</style>
 </body>
 </html>
