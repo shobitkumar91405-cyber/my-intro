@@ -16,7 +16,7 @@
             overflow: hidden;
             background: #0a0a0a;
             font-family: 'Playfair Display', serif;
-            touch-action: manipulation; /* Prevents double-tap zoom lag */
+            touch-action: manipulation;
         }
         
         .romantic-font { font-family: 'Dancing Script', cursive; }
@@ -38,7 +38,6 @@
         
         .glowing-text { text-shadow: 0 0 15px #ff69b4, 0 0 30px #ff1493; }
 
-        /* Smooth CSS Background Particles (Lag Free) */
         .bg-particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
         .particle {
             position: absolute; top: -10%; color: #ff69b4; font-size: 20px;
@@ -49,14 +48,12 @@
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
 
-        /* Wish Cards */
         .wish-card {
             transition: transform 0.3s;
             cursor: pointer;
         }
         .wish-card:hover, .wish-card:active { transform: scale(1.05); }
 
-        /* Balloons */
         .balloon {
             width: 70px; height: 90px;
             background: radial-gradient(circle at 30% 30%, #ff9a9e, #fecfef);
@@ -174,8 +171,8 @@
         </button>
     </section>
 
-    <section id="video-page" class="section bg-black p-0 m-0" style="z-index: 50;">
-        <video id="final-video" src="final-video.mp4" playsinline class="w-full h-full object-cover pointer-events-none"></video>
+    <section id="video-page" class="section bg-black" style="z-index: 50; padding: 0;">
+        <video id="final-video" src="video1.mp4" playsinline preload="auto" class="w-full h-full object-cover pointer-events-none"></video>
     </section>
 
     <script>
@@ -184,14 +181,12 @@
         let balloonsPopped = 0;
         const totalBalloons = 6;
 
-        // Start Experience & Play Music
         function startExperience() {
             music.volume = 0.5;
             music.play().catch(() => { console.log("User interaction required for audio"); });
             nextPage('wishes');
         }
 
-        // Navigation Logic
         function nextPage(nextId) {
             const current = document.querySelector('.section.active');
             const next = document.getElementById(nextId);
@@ -206,7 +201,6 @@
             }});
         }
 
-        // Wishes Logic
         function openWish(text) {
             document.getElementById('wish-text').innerText = text;
             const modal = document.getElementById('wish-modal');
@@ -216,12 +210,11 @@
         }
         function closeWish() {
             document.getElementById('wish-modal').style.display = 'none';
-            if(wishesRead >= 1) { // Show next button after reading at least 1 wish
+            if(wishesRead >= 1) { 
                 document.getElementById('btn-after-wishes').classList.remove('hidden');
             }
         }
 
-        // Cake Logic
         let isCutting = false;
         function initCake() {
             const wrap = document.getElementById('cake-wrapper');
@@ -249,7 +242,6 @@
             window.addEventListener('pointerup', () => isCutting = false);
         }
 
-        // Balloons Logic (DOM Based - Lag Free)
         function initBalloons() {
             const container = document.getElementById('balloon-container');
             container.innerHTML = '';
@@ -265,13 +257,9 @@
                 b.style.animationDelay = `${Math.random() * 2}s`;
                 
                 b.onclick = function(e) {
-                    // Confetti Pop
                     confetti({ particleCount: 40, spread: 50, origin: { x: e.clientX/innerWidth, y: e.clientY/innerHeight } });
-                    
-                    // Hide Balloon
                     b.style.display = 'none';
                     
-                    // Show Text
                     let text = document.createElement('div');
                     text.innerHTML = "Happy Birthday Manisha 🩵";
                     text.className = "absolute text-pink-300 romantic-font text-2xl font-bold pop-text-anim whitespace-nowrap text-center w-full";
@@ -288,9 +276,8 @@
             }
         }
 
-        // Video Logic
+        // Fixed Video Logic
         function goToVideo() {
-            // Stop background music
             music.pause();
             
             const current = document.querySelector('.section.active');
@@ -300,18 +287,23 @@
             gsap.to(current, { opacity: 0, duration: 0.5, onComplete: () => {
                 current.classList.remove('active');
                 videoSec.classList.add('active');
-                video.play();
+                
+                let playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Video Play Error:", error);
+                    });
+                }
             }});
         }
 
-        // Lag-Free Background Particles Generator
         const pContainer = document.getElementById('particles-container');
         for(let i=0; i<25; i++) {
             let p = document.createElement('div');
             p.className = 'particle';
             p.innerHTML = Math.random() > 0.5 ? '🌹' : '💕';
             p.style.left = `${Math.random() * 100}vw`;
-            p.style.animationDuration = `${Math.random() * 3 + 4}s`; // 4 to 7 seconds fall
+            p.style.animationDuration = `${Math.random() * 3 + 4}s`; 
             p.style.animationDelay = `${Math.random() * 5}s`;
             p.style.fontSize = `${Math.random() * 15 + 10}px`;
             pContainer.appendChild(p);
