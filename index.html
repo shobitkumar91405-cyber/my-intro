@@ -13,9 +13,10 @@
         
         body, html {
             margin: 0; padding: 0;
-            overflow: hidden; /* No more scrolling */
-            background: #0a0a0a;
+            overflow: hidden;
+            background: #050505;
             font-family: 'Playfair Display', serif;
+            color: white;
         }
         
         .romantic-font { font-family: 'Dancing Script', cursive; }
@@ -23,269 +24,243 @@
         .section {
             position: absolute;
             inset: 0;
-            display: none; /* Hidden by default */
+            display: none;
             align-items: center;
             justify-content: center;
             flex-direction: column;
             padding: 20px;
+            background: radial-gradient(circle at center, #1a0a0a 0%, #050505 100%);
         }
 
-        .section.active { display: flex; }
+        .section.active { display: flex; z-index: 10; }
 
         .glass {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
         }
         
         .glowing-text {
-            text-shadow: 0 0 15px #ff69b4, 0 0 30px #ff1493;
+            text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff1493;
+        }
+
+        .insta-tag {
+            position: fixed;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Wish Cards Styling */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .wish-card {
+            height: 150px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card-inner.flipped { transform: rotateY(180deg); }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            text-align: center;
+        }
+        .card-back { transform: rotateY(180deg); background: rgba(255, 105, 180, 0.2); }
+
+        #video-container {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 15px;
+            overflow: hidden;
+            display: none;
         }
 
         .next-btn {
-            position: absolute;
-            bottom: 40px;
-            right: 40px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
             z-index: 100;
-        }
-
-        #global-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
-        
-        .cake-container { touch-action: none; filter: drop-shadow(0 15px 30px rgba(236,72,153,0.4)); }
-        
-        .heart-particle {
-            position: absolute; pointer-events: none; z-index: 10;
-            animation: floatHeart 6s linear forwards;
-        }
-
-        @keyframes floatHeart {
-            0% { transform: translateY(100px) scale(0.5); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(-100vh) scale(1.2); opacity: 0; }
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.2);
         }
     </style>
 </head>
 <body>
 
+    <div class="insta-tag">made by <span class="text-pink-500">sivasingh</span> insta - <b>@smss1708</b></div>
+
     <audio id="bgmusic" loop><source src="tere-liye.mp3" type="audio/mpeg"></audio>
-    <canvas id="global-canvas"></canvas>
 
     <section id="intro" class="section active">
-        <div class="text-center z-20">
-            <h1 class="text-7xl md:text-8xl font-bold romantic-font glowing-text mb-4">Hey Cutiepie 💕</h1>
-            <p class="text-3xl text-pink-300 romantic-font mb-12">Anshika, you're the most special person ever.</p>
-            <button onclick="nextPage('cake')" class="bg-gradient-to-r from-pink-500 to-rose-500 px-10 py-4 rounded-full text-xl font-bold hover:scale-110 transition">
-                Start the Surprise 💖
+        <div class="text-center">
+            <h1 class="text-6xl md:text-8xl font-bold romantic-font glowing-text mb-4">Hi Manisha 💕</h1>
+            <p class="text-2xl text-pink-300 romantic-font mb-10">You're the most special girl in the world.</p>
+            <button onclick="startApp()" class="bg-gradient-to-r from-pink-500 to-rose-500 px-10 py-4 rounded-full text-xl font-bold hover:scale-105 transition active:scale-95">
+                Open Your Surprise 💖
             </button>
         </div>
     </section>
 
     <section id="cake" class="section">
-        <div class="text-center mb-8 z-20">
-            <h2 class="text-5xl romantic-font text-pink-300">Cut your birthday cake! 🎂</h2>
+        <h2 class="text-4xl romantic-font text-pink-300 mb-10">Manisha, Make a Wish & Cut! 🎂</h2>
+        <div class="relative w-[280px] h-[200px]" onclick="cutCake()">
+            <div class="absolute bottom-0 w-full h-24 bg-pink-600 rounded-t-3xl"></div>
+            <div class="absolute bottom-12 left-1/2 -translate-x-1/2 w-48 h-20 bg-pink-400 rounded-t-2xl"></div>
+            <div id="candle" class="absolute top-0 left-1/2 -translate-x-1/2 text-4xl animate-bounce">🕯️</div>
         </div>
-        <div class="cake-container relative w-[300px] h-[250px] z-20" id="cake-wrapper">
-            <div class="relative w-full h-full">
-                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[260px] h-[70px] bg-pink-600 rounded-[50%]"></div>
-                <div class="absolute bottom-[50px] left-1/2 -translate-x-1/2 w-[200px] h-[60px] bg-pink-500 rounded-[50%]"></div>
-                <div class="absolute bottom-[100px] left-1/2 -translate-x-1/2 w-[140px] h-[50px] bg-rose-500 rounded-[50%]"></div>
-                <div class="absolute bottom-[140px] left-1/2 -translate-x-1/2 flex gap-4">
-                    <div class="w-3 h-10 bg-white rounded-full"></div>
-                    <div class="w-3 h-12 bg-white rounded-full"></div>
-                    <div class="w-3 h-10 bg-white rounded-full"></div>
+        <div id="cake-msg" class="hidden mt-10 text-center">
+            <h3 class="text-3xl romantic-font glowing-text">Happy Birthday, My Dear Manisha!</h3>
+            <button onclick="nextPage('cards')" class="mt-5 text-pink-400 border border-pink-400 px-6 py-2 rounded-full">Next ✨</button>
+        </div>
+    </section>
+
+    <section id="cards" class="section">
+        <h2 class="text-3xl romantic-font mb-8 text-pink-200">Tap to read my wishes for you...</h2>
+        <div class="card-grid">
+            <div class="wish-card" onclick="flipCard(this)">
+                <div class="card-inner glass">
+                    <div class="card-front text-4xl">💎</div>
+                    <div class="card-back romantic-font text-xl">May your life shine brighter than any diamond.</div>
                 </div>
             </div>
-            <div id="knife" class="absolute top-0 left-1/2 text-6xl pointer-events-none" style="transform: rotate(-30deg);">🔪</div>
+            <div class="wish-card" onclick="flipCard(this)">
+                <div class="card-inner glass">
+                    <div class="card-front text-4xl">🌸</div>
+                    <div class="card-back romantic-font text-xl">May you always bloom like a beautiful rose.</div>
+                </div>
+            </div>
+            <div class="wish-card" onclick="flipCard(this)">
+                <div class="card-inner glass">
+                    <div class="card-front text-4xl">🌙</div>
+                    <div class="card-back romantic-font text-xl">May your nights be peaceful and dreams come true.</div>
+                </div>
+            </div>
+            <div class="wish-card" onclick="flipCard(this)">
+                <div class="card-inner glass">
+                    <div class="card-front text-4xl">♾️</div>
+                    <div class="card-back romantic-font text-xl">My support for you is infinite, Manisha.</div>
+                </div>
+            </div>
         </div>
-        <div id="cake-message" class="hidden text-center mt-8 z-20">
-            <h3 class="text-4xl romantic-font glowing-text">Happy Birthday Manisha!</h3>
-            <button onclick="nextPage('balloons')" class="mt-6 text-pink-400 border border-pink-400 px-6 py-2 rounded-full hover:bg-pink-400 hover:text-black transition">Next Magic ✨</button>
-        </div>
+        <button onclick="nextPage('balloons')" class="next-btn"><i class="fa-solid fa-arrow-right"></i></button>
     </section>
 
     <section id="balloons" class="section">
-        <canvas id="balloon-canvas" class="absolute inset-0 w-full h-full"></canvas>
-        <div class="relative z-20 text-center pointer-events-none">
-            <h1 class="text-6xl md:text-8xl romantic-font text-white mb-4">Pop the Balloons! 🎈</h1>
-            <p class="text-xl text-pink-200">Tap them one by one...</p>
+        <div id="balloon-container" class="absolute inset-0 overflow-hidden"></div>
+        <div class="z-20 text-center pointer-events-none">
+            <h1 class="text-5xl romantic-font glowing-text">Pop for a Message! 🎈</h1>
         </div>
-        <button onclick="nextPage('rose')" class="next-btn bg-white/10 p-4 rounded-full glass"><i class="fa-solid fa-arrow-right text-2xl"></i></button>
-    </section>
-
-    <section id="rose" class="section">
-        <div class="text-[15rem] transition-transform duration-[5000ms] hover:rotate-[360deg] z-10">🌹</div>
-        <div class="glass p-8 rounded-3xl text-center max-w-sm mt-8">
-            <p class="text-3xl romantic-font">For the girl who loves black roses 🖤</p>
-            <p class="mt-4 text-pink-300 italic">"In a world of colors, you're my favorite shade of black."</p>
-        </div>
-        <button onclick="nextPage('cute')" class="next-btn bg-white/10 p-4 rounded-full glass"><i class="fa-solid fa-arrow-right text-2xl"></i></button>
-    </section>
-
-    <section id="cute" class="section">
-        <h2 class="text-4xl romantic-font mb-10">Measuring Manisha Cuteness...</h2>
-        <div class="w-full max-w-xs h-4 bg-zinc-800 rounded-full overflow-hidden">
-            <div id="cuteness-bar" class="h-full w-0 bg-pink-500 transition-all"></div>
-        </div>
-        <p id="cuteness-percent" class="mt-4 text-2xl font-mono">0%</p>
-        
-        <div id="cute-result" class="hidden text-center mt-10">
-            <h1 class="text-5xl romantic-font glowing-text">100% IRREPLACEABLE! 💖</h1>
-            <div class="flex gap-4 mt-6 justify-center">
-                <img src="https://media.tenor.com/0xV8o1qD0eEAAAAC/happy-birthday.gif" class="w-24 h-24 rounded-lg shadow-lg">
-                <img src="https://media.tenor.com/8p0j3g5Z0xUAAAAC/hearts-love.gif" class="w-24 h-24 rounded-lg shadow-lg">
+        <div id="pop-message" class="hidden z-30 fixed inset-0 bg-black/80 flex items-center justify-center">
+            <div class="text-center p-10 glass mx-5">
+                <h1 class="text-5xl romantic-font text-pink-500 mb-4">Happy Birthday Manisha!</h1>
+                <p class="text-lg">You are pure magic! ✨</p>
+                <button onclick="nextPage('video-page')" class="mt-8 bg-pink-600 px-8 py-2 rounded-full">Final Surprise 🎁</button>
             </div>
-            <button onclick="location.reload()" class="mt-10 text-xs text-pink-700 underline">Watch Again ❤️</button>
         </div>
+    </section>
+
+    <section id="video-page" class="section">
+        <h2 class="text-3xl romantic-font mb-6 text-pink-300">A Little Something For You... 🎬</h2>
+        <div id="video-container" class="block">
+            <video id="myVideo" class="w-full" controls>
+                <source src="video1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <p class="mt-6 text-xs opacity-50">made with ❤️ by sivasingh</p>
     </section>
 
     <script>
-        // PAGE NAVIGATION LOGIC
-        function nextPage(nextId) {
-            const current = document.querySelector('.section.active');
-            const next = document.getElementById(nextId);
+        const bgMusic = document.getElementById('bgmusic');
+        const video = document.getElementById('myVideo');
 
-            gsap.to(current, { opacity: 0, scale: 0.9, duration: 0.5, onComplete: () => {
-                current.classList.remove('active');
-                next.classList.add('active');
-                gsap.fromTo(next, { opacity: 0, scale: 1.1 }, { opacity: 1, scale: 1, duration: 0.5 });
-                
-                // Trigger specific page functions
-                if(nextId === 'balloons') initBalloons();
-                if(nextId === 'cute') runCutenessMeter();
-                if(nextId === 'cake') initCake();
-            }});
-
-            if(nextId === 'cake') {
-                const music = document.getElementById('bgmusic');
-                music.volume = 0.5;
-                music.play().catch(() => {});
-            }
+        function startApp() {
+            bgMusic.play().catch(() => console.log("Music needs interaction"));
+            nextPage('cake');
         }
 
-        // GLOBAL PARTICLES (Petals)
-        const gCanvas = document.getElementById('global-canvas');
-        const gCtx = gCanvas.getContext('2d');
-        let particles = [];
-        
-        function resize() { gCanvas.width = window.innerWidth; gCanvas.height = window.innerHeight; }
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Petal {
-            constructor() { this.reset(); }
-            reset() {
-                this.x = Math.random() * gCanvas.width;
-                this.y = -20;
-                this.size = Math.random() * 20 + 10;
-                this.speed = Math.random() * 2 + 1;
-                this.rot = Math.random() * 360;
-            }
-            update() {
-                this.y += this.speed;
-                this.rot += 1;
-                if(this.y > gCanvas.height) this.reset();
-            }
-            draw() {
-                gCtx.save();
-                gCtx.translate(this.x, this.y);
-                gCtx.rotate(this.rot * Math.PI / 180);
-                gCtx.font = `${this.size}px serif`;
-                gCtx.fillText(Math.random() > 0.5 ? '🌹' : '💕', 0, 0);
-                gCtx.restore();
-            }
-        }
-        for(let i=0; i<30; i++) particles.push(new Petal());
-
-        function animate() {
-            gCtx.clearRect(0,0,gCanvas.width, gCanvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        // CAKE LOGIC
-        let isCutting = false;
-        function initCake() {
-            const wrap = document.getElementById('cake-wrapper');
-            const knife = document.getElementById('knife');
+        function nextPage(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            const next = document.getElementById(id);
+            next.classList.add('active');
             
-            const moveKnife = (e) => {
-                if(!isCutting) return;
-                const rect = wrap.getBoundingClientRect();
-                const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-                const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
-                knife.style.left = x + 'px';
-                knife.style.top = y + 'px';
-                if(x > 100 && x < 200 && y > 100 && y < 150) {
-                    isCutting = false;
-                    document.getElementById('cake-message').classList.remove('hidden');
-                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                }
-            };
-
-            wrap.addEventListener('pointerdown', () => isCutting = true);
-            window.addEventListener('pointermove', moveKnife);
-            window.addEventListener('pointerup', () => isCutting = false);
+            if(id === 'balloons') createBalloons();
+            if(id === 'video-page') {
+                bgMusic.pause();
+                video.play();
+            }
         }
 
-        // BALLOONS LOGIC (Simplified for no lag)
-        let bCanvas = document.getElementById('balloon-canvas');
-        let bCtx = bCanvas.getContext('2d');
-        let balloons = [];
-
-        function initBalloons() {
-            bCanvas.width = window.innerWidth;
-            bCanvas.height = window.innerHeight;
-            balloons = Array.from({length: 15}, () => ({
-                x: Math.random() * bCanvas.width,
-                y: bCanvas.height + Math.random() * 500,
-                r: 40,
-                color: `hsl(${Math.random() * 360}, 70%, 60%)`,
-                speed: Math.random() * 2 + 1
-            }));
-            renderBalloons();
+        // Cake Logic
+        function cutCake() {
+            document.getElementById('candle').style.display = 'none';
+            document.getElementById('cake-msg').classList.remove('hidden');
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
         }
 
-        function renderBalloons() {
-            bCtx.clearRect(0,0, bCanvas.width, bCanvas.height);
-            balloons.forEach(b => {
-                b.y -= b.speed;
-                if(b.y < -50) b.y = bCanvas.height + 50;
-                bCtx.fillStyle = b.color;
-                bCtx.beginPath();
-                bCtx.ellipse(b.x, b.y, b.r, b.r * 1.2, 0, 0, Math.PI*2);
-                bCtx.fill();
-            });
-            if(document.getElementById('balloons').classList.contains('active'))
-                requestAnimationFrame(renderBalloons);
+        // Card Flip Logic
+        function flipCard(el) {
+            el.querySelector('.card-inner').classList.toggle('flipped');
         }
 
-        bCanvas.addEventListener('click', (e) => {
-            balloons.forEach((b, i) => {
-                const dist = Math.hypot(b.x - e.clientX, b.y - e.clientY);
-                if(dist < b.r) {
-                    balloons.splice(i, 1);
-                    confetti({ particleCount: 20, origin: { x: e.clientX/innerWidth, y: e.clientY/innerHeight } });
-                    if(balloons.length === 0) initBalloons(); // Refill
-                }
-            });
-        });
+        // Balloon Logic
+        function createBalloons() {
+            const container = document.getElementById('balloon-container');
+            let popped = 0;
+            for(let i=0; i<15; i++) {
+                const b = document.createElement('div');
+                b.className = 'absolute text-5xl cursor-pointer select-none';
+                b.innerHTML = '🎈';
+                b.style.left = Math.random() * 90 + '%';
+                b.style.top = '100%';
+                container.appendChild(b);
 
-        // CUTENESS METER
-        function runCutenessMeter() {
-            let p = 0;
-            const bar = document.getElementById('cuteness-bar');
-            const txt = document.getElementById('cuteness-percent');
-            const iv = setInterval(() => {
-                p += 1;
-                bar.style.width = p + '%';
-                txt.innerText = p + '%';
-                if(p >= 100) {
-                    clearInterval(iv);
-                    document.getElementById('cute-result').classList.remove('hidden');
-                }
-            }, 30);
+                gsap.to(b, {
+                    y: -window.innerHeight - 200,
+                    duration: 5 + Math.random() * 5,
+                    repeat: -1,
+                    delay: Math.random() * 5,
+                    onStart: () => {
+                        b.onclick = () => {
+                            popped++;
+                            b.innerHTML = '💥';
+                            confetti({ origin: { x: b.offsetLeft/window.innerWidth, y: b.offsetTop/window.innerHeight } });
+                            setTimeout(() => b.remove(), 200);
+                            if(popped >= 5) document.getElementById('pop-message').classList.remove('hidden');
+                        };
+                    }
+                });
+            }
         }
+
+        // Video & Audio Sync
+        video.onplay = () => bgMusic.pause();
+        video.onended = () => bgMusic.play();
     </script>
 </body>
 </html>
