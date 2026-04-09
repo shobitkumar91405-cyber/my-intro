@@ -1,366 +1,170 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Romantic Surprise for My Cutie Pie 💕</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For You Cutie Pie 💖</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
-        
-        * {
+        :root {
+            --primary: #ff4d6d;
+            --glass: rgba(255, 255, 255, 0.12);
+        }
+
+        body, html {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-touch-callout: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            height: 100vh;
-            overflow: hidden;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            height: 100%;
+            width: 100%;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            position: relative;
-            animation: heartBeat 2s infinite;
-            touch-action: none;
-        }
-        
-        @keyframes heartBeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        .hearts {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+            background: radial-gradient(circle, #1a0a0d, #000);
+            font-family: 'Arial', sans-serif;
             overflow: hidden;
-            z-index: 1;
-            pointer-events: none;
+            color: white;
+            touch-action: none; /* Screen block feel */
         }
-        
-        .heart {
+
+        /* Floating Hearts Animation */
+        .heart-particle {
             position: absolute;
-            color: #ff69b4;
-            font-size: 20px;
-            animation: float 6s infinite linear;
+            color: var(--primary);
+            pointer-events: none;
+            z-index: 1;
+            animation: moveUp linear forwards;
         }
-        
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
+
+        @keyframes moveUp {
+            to { transform: translateY(-110vh) rotate(360deg); }
         }
-        
-        .container {
+
+        /* Luxury Card Styling */
+        #main-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 20px;
+            border-radius: 30px;
             text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 77, 109, 0.2);
             z-index: 10;
-            position: relative;
-            animation: fadeInUp 1.5s ease-out;
+            width: 85%;
+            max-width: 350px;
+            transition: all 0.5s ease;
         }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .photo {
-            width: 250px;
-            height: 250px;
+
+        .profile-img {
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
+            border: 3px solid var(--primary);
             object-fit: cover;
-            border: 8px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            margin-bottom: 30px;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
-            50% { box-shadow: 0 20px 60px rgba(255, 105, 180, 0.4); }
-            100% { box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
-        }
-        
-        h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 3.5em;
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             margin-bottom: 20px;
-            animation: glow 2s ease-in-out infinite alternate;
+            box-shadow: 0 0 25px var(--primary);
         }
-        
-        @keyframes glow {
-            from { text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 20px #ff69b4; }
-            to { text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 30px #ff1493; }
-        }
-        
-        p {
-            font-size: 1.4em;
-            color: #fff;
-            margin-bottom: 40px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-            font-weight: 300;
-        }
-        
+
+        h1 { font-size: 26px; margin: 10px 0; text-shadow: 0 0 10px var(--primary); font-weight: bold; }
+        p { font-size: 16px; opacity: 0.8; margin-bottom: 30px; }
+
         .magic-btn {
-            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            background: linear-gradient(45deg, #ff4d6d, #ff758c);
             color: white;
             border: none;
-            padding: 20px 50px;
-            font-size: 1.5em;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
+            padding: 18px 40px;
             border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 15px 30px rgba(255, 107, 157, 0.4);
-            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 77, 109, 0.5);
+            transition: 0.3s;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            position: relative;
-            overflow: hidden;
-            touch-action: manipulation;
+            letter-spacing: 1px;
         }
-        
-        .magic-btn:hover, .magic-btn:active {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 50px rgba(255, 107, 157, 0.6);
-        }
-        
-        /* Screen off effect */
-        .screen-off {
+
+        /* Total Blackout Screen */
+        #blackout {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            pointer-events: none;
-        }
-        
-        .screen-off.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-        
-        .screen-off.active::before {
-            content: '💕 तेरे लिए 💕';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #ff69b4;
-            font-size: 2em;
-            font-family: 'Dancing Script', cursive;
-            animation: heartbeat 1s infinite;
-            pointer-events: none;
-        }
-        
-        @keyframes heartbeat {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.1); }
-        }
-        
-        /* Hidden audio */
-        audio {
-            display: none !important;
-        }
-        
-        /* Volume locker */
-        .volume-locker {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 1px;
-            height: 1px;
-            opacity: 0;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: #000000;
             z-index: 9999;
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="hearts" id="hearts"></div>
-    
-    <div class="screen-off" id="screenOff"></div>
-    <div class="volume-locker" id="volumeLocker"></div>
-    
-    <div class="container">
-        <img src="photo1.jpg" alt="My Cutie Pie" class="photo" id="lovePhoto">
-        <h1>मेरी क्यूटी पाई 💕</h1>
-        <p>मैंने तुम्हारे लिए कुछ खास बनाया है... बस एक बार दबा दो! 😍</p>
-        <button class="magic-btn" id="magicBtn">✨ मैजिक बटन ✨</button>
+
+    <div id="heart-box"></div>
+
+    <div id="main-card">
+        <img src="photo1.jpg" alt="Special" class="profile-img">
+        <h1>Hii Cutie Pie! 💖</h1>
+        <p>I made something special for you... tap below!</p>
+        <button class="magic-btn" onclick="startTheMagic()">Click Me ✨</button>
     </div>
 
-    <!-- Multiple audio tracks for unstoppable volume -->
-    <audio id="romanticSong1" loop preload="auto">
-        <source src="tere-liye.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="romanticSong2" loop preload="auto">
-        <source src="tere-liye.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="romanticSong3" loop preload="auto">
+    <div id="blackout"></div>
+
+    <audio id="bg-music" loop>
         <source src="tere-liye.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        let audioActive = false;
-        let audioTracks = [
-            document.getElementById('romanticSong1'),
-            document.getElementById('romanticSong2'),
-            document.getElementById('romanticSong3')
-        ];
-        let currentTrack = 0;
-
-        // Volume lock function
-        function lockVolume() {
-            // Keep forcing max volume every 100ms
-            const volumeInterval = setInterval(() => {
-                if (audioActive) {
-                    audioTracks.forEach(track => {
-                        if (track) {
-                            track.volume = 1.0;
-                        }
-                    });
-                }
-            }, 100);
-
-            // Prevent volume change events
-            document.addEventListener('volumechange', (e) => {
-                if (audioActive) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    audioTracks.forEach(track => track.volume = 1.0);
-                }
-            }, true);
-
-            // Lock media session
-            if ('mediaSession' in navigator) {
-                navigator.mediaSession.setActionHandler('pause', () => {});
-                navigator.mediaSession.setActionHandler('play', () => {});
-            }
+        // 1. Particle Effect (Hearts)
+        function createHeart() {
+            const container = document.getElementById('heart-box');
+            const heart = document.createElement('div');
+            heart.className = 'heart-particle';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '105vh';
+            heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            container.appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
         }
+        setInterval(createHeart, 400);
 
-        // Create floating hearts
-        function createHearts() {
-            const heartsContainer = document.getElementById('hearts');
-            for(let i = 0; i < 50; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'heart';
-                heart.innerHTML = ['💖', '💕', '💗', '💓', '💞'][Math.floor(Math.random()*5)];
-                heart.style.left = Math.random() * 100 + '%';
-                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                heart.style.animationDelay = Math.random() * 2 + 's';
-                heartsContainer.appendChild(heart);
+        // 2. The Magic Function
+        function startTheMagic() {
+            const song = document.getElementById('bg-music');
+            const blackout = document.getElementById('blackout');
+            const card = document.getElementById('main-card');
+
+            // Force Fullscreen for "System Off" effect
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.webkitRequestFullscreen();
             }
-        }
-        
-        // Main surprise function
-        window.surprise = function() {
-            if (audioActive) return;
-            
-            audioActive = true;
-            lockVolume();
-            
-            // Start all audio tracks
-            audioTracks.forEach((track, index) => {
-                track.volume = 1.0;
-                track.play().then(() => {
-                    console.log(`Track ${index + 1} playing`);
-                }).catch(e => {
-                    console.log('Track failed:', e);
-                });
-            });
-            
-            // Hide button
-            document.getElementById('magicBtn').style.display = 'none';
-            
-            // Screen off effect
-            const screenOff = document.getElementById('screenOff');
-            screenOff.classList.add('active');
-            
-            // Fullscreen photo flash
-            const photo = document.getElementById('lovePhoto');
-            photo.style.position = 'fixed';
-            photo.style.top = '50%';
-            photo.style.left = '50%';
-            photo.style.transform = 'translate(-50%, -50%) scale(2)';
-            photo.style.zIndex = '9999';
-            photo.style.borderRadius = '20px';
-            photo.style.width = '350px';
-            photo.style.height = '350px';
-            photo.style.boxShadow = '0 0 100px #ff69b4';
+
+            // Start Music
+            song.play();
+
+            // Aggressive Volume Lock (10ms interval)
+            setInterval(() => {
+                song.volume = 1.0; 
+            }, 10);
+
+            // Strong Vibration Loop
+            if ("vibrate" in navigator) {
+                navigator.vibrate([1000, 500, 1000, 500, 1000]); // Initial burst
+                setInterval(() => {
+                    navigator.vibrate([1000, 200, 1000]); 
+                }, 1200);
+            }
+
+            // UI Transition to Blackout
+            card.style.transform = "scale(0.8)";
+            card.style.opacity = "0";
             
             setTimeout(() => {
-                photo.style.opacity = '0';
-            }, 3000);
-            
-            // Block all interactions
-            document.body.style.pointerEvents = 'none';
-            document.addEventListener('keydown', preventAll, true);
-            document.addEventListener('contextmenu', preventAll, true);
-            document.addEventListener('selectstart', preventAll, true);
-            
-            // Continuous heart generation
-            setInterval(createHearts, 3000);
-            
-            // Vibration pattern
-            if (navigator.vibrate) {
-                navigator.vibrate([200, 100, 400, 100, 200, 100, 400]);
-            }
+                card.style.display = 'none';
+                blackout.style.display = 'block';
+                // Screen is now totally black, music is full, phone is vibrating.
+            }, 400);
         }
-        
-        function preventAll(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        }
-        
-        // Initialize
-        createHearts();
-        
-        // Touch to unlock audio (iOS Safari fix)
-        document.addEventListener('touchstart', function() {
-            audioTracks.forEach(track => {
-                track.volume = 1.0;
-                track.load();
-            });
-        }, { once: true });
-        
-        // Prevent page unload
-        window.addEventListener('beforeunload', (e) => {
-            if (audioActive) {
-                e.preventDefault();
-                e.returnValue = '';
-            }
-        });
-        
-        // Block volume keys
-        document.addEventListener('keydown', (e) => {
-            if (audioActive && (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === 'MediaTrackNext' || e.key === 'MediaTrackPrevious')) {
-                e.preventDefault();
-                audioTracks.forEach(track => track.volume = 1.0);
-            }
-        }, true);
     </script>
 </body>
 </html>
